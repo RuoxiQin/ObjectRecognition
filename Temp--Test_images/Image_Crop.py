@@ -2,9 +2,8 @@ import cv2
 import numpy as np
 import timeit
 
-
 ######### 
-def crop(img, dim = (224, 224), loc = None):
+def crop(img, dim = (227, 227), loc = None):
     
     if loc == None:
         a = img.shape
@@ -27,19 +26,18 @@ if __name__ == '__main__':
     
     ### path
     
-    #~ path = 'Original/homeoffice/scene_8/'
+    path = 'Original/homeoffice/scene_8/'
     #~ path = 'Original/bedroom/scene_31/'
-    path = 'Original/kitchen/scene_23/'
+    #~ path = 'Original/kitchen/scene_23/'
     
-    output_path = 'Generated/set-3/'
-    
+    output_path = 'Generated/set-1/'
     
     ### file
-    #~ filename = '4.JPG'
-    filename = 'scene.jpg'
+    filename = '2.JPG'
+    #~ filename = 'scene.jpg'
     
     ### counting segmentations
-    count = 2
+    count = 0
     
     ### Begin timer
     start = timeit.default_timer()
@@ -48,7 +46,7 @@ if __name__ == '__main__':
     
     ### cropping 
     #~ to_crop = None
-    to_crop = [(300,400), (630,730)]
+    to_crop = [(370,550), (630,730)]
     new_image = crop(img, loc = to_crop)
     
     if count > 0:
