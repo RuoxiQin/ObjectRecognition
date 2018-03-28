@@ -54,10 +54,6 @@ im3 = (imread("scene-2.jpg")[:,:,:3]).astype(float32)
 #im3 = im3 - mean(im3)
 im3[:, :, 0], im3[:, :, 2] = im3[:, :, 2], im3[:, :, 0]
 
-im4 = (imread("dog.png")[:,:,:3]).astype(float32)
-#im4 = im4 - mean(im4)
-im4[:, :, 0], im4[:, :, 2] = im4[:, :, 2], im4[:, :, 0]
-
 
 ################################################################################
 
@@ -211,7 +207,7 @@ sess = tf.Session()
 sess.run(init)
 
 t = time.time()
-output = sess.run(fc6, feed_dict = {x:[im1,im2, im3, im4]})
+output = sess.run(fc6, feed_dict = {x:[im1,im2, im3]})
 ################################################################################
 
 #Output:
@@ -226,17 +222,13 @@ o2 = output[1]
 o2_sparsed = np.multiply(o2, o0)
 o3 = output[2]
 o3_sparsed = np.multiply(o3, o0)
-o4 = output[3]
-o4_sparsed = np.multiply(o4, o0)
 print(np.linalg.norm(o1 - o2_sparsed))
 print(np.linalg.norm(o2_sparsed - o3_sparsed))
 print(np.linalg.norm(o1 - o3_sparsed))
-print(np.linalg.norm(o1 - o4_sparsed))
 
 print(np.linalg.norm(o1 - o2))
 print(np.linalg.norm(o2 - o3))
 print(np.linalg.norm(o1 - o3))
-print(np.linalg.norm(o1 - o4))
 
 """
 for input_im_ind in range(output.shape[0]):
