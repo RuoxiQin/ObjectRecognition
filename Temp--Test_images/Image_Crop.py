@@ -52,7 +52,7 @@ if __name__ == '__main__':
     new_image = crop(img, loc = to_crop)
     
     if count > 0:
-        filename = filename + '-' + str(count)
+        filename = filename[:-4] + '-' + str(count) + '.jpg'
     
     cv2.imwrite(output_path + filename, new_image)
     
