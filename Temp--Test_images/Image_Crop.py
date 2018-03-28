@@ -26,15 +26,17 @@ if __name__ == '__main__':
     
     ### path
     
-    path = 'Original/homeoffice/scene_8/'
+    #~ path = 'Original/homeoffice/scene_8/'
     #~ path = 'Original/bedroom/scene_31/'
     #~ path = 'Original/kitchen/scene_23/'
     
-    output_path = 'Generated/set-1/'
+    path = 'Generated/set-2/'
+    
+    output_path = 'Generated/set-2/'
     
     ### file
-    filename = '2.JPG'
-    #~ filename = 'scene.jpg'
+    #~ filename = '2.JPG'
+    filename = 'scene-2.jpg'
     
     ### counting segmentations
     count = 0
@@ -45,8 +47,8 @@ if __name__ == '__main__':
     img = cv2.imread(path + filename)
     
     ### cropping 
-    #~ to_crop = None
-    to_crop = [(370,550), (630,730)]
+    to_crop = None
+    #~ to_crop = [(370,550), (630,730)]
     new_image = crop(img, loc = to_crop)
     
     if count > 0:
