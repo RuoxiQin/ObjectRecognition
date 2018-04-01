@@ -1,3 +1,9 @@
+
+# coding: utf-8
+
+# In[1]:
+
+
 # imports
 
 import os.path
@@ -5,6 +11,11 @@ import numpy as np
 import cv2
 import random
 import xml.etree.ElementTree as ET
+
+
+# # DATASET SORTINGS
+
+# In[2]:
 
 
 # Init parameters
@@ -20,9 +31,11 @@ ikea_scenes = [
     'bathroom', 'bedroom', 'childrenroom', 
     'hallway', 'homeoffice', 'kitchen', 
     'laundry', 'livingroom', 'outdoor']
-    
-    
-    
+
+
+# In[29]:
+
+
 # compute the dataset_structure
 
 def scan_num_obj(path):
@@ -58,6 +71,8 @@ def scan_all(path_to_data):
 dataset_structure = scan_all(path_prefix)
 
 
+# In[32]:
+
 
 # backtrack the path to the objects
 
@@ -67,6 +82,7 @@ def backtrack_path(target_num, path_to_data):
     found = False
     for x in dataset_structure:
         for y in x:
+            scene_num = 0
             if (target_num <= y):
                 found = True
                 break
@@ -77,16 +93,16 @@ def backtrack_path(target_num, path_to_data):
             break
         scene_loc += 1
     return (scene_loc, scene_num + 1, target_num)
-    
-    
-    
-    
-    
+
+
+# # GENERATE TRAINING PICS
+
+# In[37]:
+
+
 # get obj from xml 
 def bound_xml(tup, path):
-    path_to_xml = path + ikea_scenes[tup[0]] + '/' \
-            + dir_prefix + str(tup[1]) + '/' \
-            + file_xml
+    path_to_xml = path + ikea_scenes[tup[0]] + '/'             + dir_prefix + str(tup[1]) + '/'             + file_xml
     target_obj = tup[2] 
     
     # XML parsing
@@ -113,9 +129,7 @@ def bound_xml(tup, path):
 
 # backtrack path 
 def backtrack_tuple(tup, path):
-    return (path + ikea_scenes[tup[0]] + '/' \
-            + dir_prefix + str(tup[1]) + '/' \
-            + str(tup[2]) + obj_suffix)
+    return (path + ikea_scenes[tup[0]] + '/'             + dir_prefix + str(tup[1]) + '/'             + str(tup[2]) + obj_suffix)
 
 # cropping script 
 def img_crop(img, dim = (227, 227), loc = None):
@@ -133,17 +147,13 @@ def gen_object(target_object, tup):
     return_imgs = []
     
     # backtracking path 
-    t_p = backtrack_tuple(t_p_tuple, path_prefix) 
+    t_p = backtrack_tuple(tup, path_prefix) 
     
     o_img = cv2.imread(t_p) 
     # gen cropped obj's
-    for i in range(2):
+    for i in range(50):
         r_4 = [random.getrandbits(1) for j in range(4)]
-        return_imgs.append( \
-            img_crop(o_img, loc = \
-            [(r_4[0], r_4[1]), \
-            (obj_dim - 1 - r_4[2], obj_dim - 1 - r_4[3])] \
-            ))
+        return_imgs.append(             img_crop(o_img, loc =             [(r_4[0], r_4[1]),             (obj_dim - 1 - r_4[2], obj_dim - 1 - r_4[3])]             ))
         
         #### Testing codes
         # cv2.imwrite(str(i)+'_test.jpg', return_imgs[i])
@@ -161,15 +171,16 @@ def input_func():
     target_obj = random.sample(range(1,n+1),20)
     
     # init
-    features = {'object': [], 'scene': []}
+    features = {'objects': [], 'scenes': []}
     labels = []
     
     for x in target_obj:
         #### get xml, otherwise reroll until found 
-        get_xml = bound_xml(x, path_prefix)
-        while get_xml == (0,0,0,0):
-            x = random.randint(1, n)
-            get_xml = bound_xml(x, path_prefix)
+        
+        #get_xml = bound_xml(x, path_prefix)
+        #while get_xml == (0,0,0,0):
+        #    x = random.randint(1, n)
+        #    get_xml = bound_xml(x, path_prefix)
         
         obj_tuple = backtrack_path(x, path_prefix) 
         #### objects 
@@ -177,13 +188,11 @@ def input_func():
         features['objects'].extend(obj_list)
         
         #### 
-        fts, ls = gen_object(x, obj_tuple) # 50 dummy 1's
+        fts = gen_object(x, obj_tuple) # 50
         features['scenes'].extend(fts) 
-        for i in range(25):
+        for i in range(50):
             labels.append(1)
     
     return features, labels
 
 
-
-    
