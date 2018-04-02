@@ -140,12 +140,16 @@ last_cnn_scene = generate_CNN(input_scene)
 # Concatenate two layer
 concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
 # Add 1 fully connected hidden layer after the cnn
-dense1 = tf.layers.dense(inputs=concat_layer, units=8192, activation=tf.nn.relu)
+dense1 = tf.layers.dense(inputs=concat_layer, units=8192, 
+    activation=tf.sigmoid)
 dropout1 = tf.layers.dropout(inputs=dense1, rate=0.5, training = mode_is_train)
 logits = tf.layers.dense(inputs=dropout1, units=1)
 sig_logits = tf.sigmoid(logits)
 # define loss function
-loss = tf.losses.mean_squared_error(predictions=sig_logits, labels=ground_truth)
+loss = tf.substract(sig_logits, ground_truth)
+loss = tf.square(loss)
+loss = tf.reduce_mean(loss)
+#loss = tf.losses.mean_squared_error(predictions=sig_logits, labels=ground_truth)
 # add optimizer, this a symbolic ops to do gradient descent
 train_step = tf.train.AdamOptimizer(LEARN_RATE).minimize(loss)
 # add evaluate ops, this is used to evaluate the model
