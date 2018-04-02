@@ -69,7 +69,6 @@ def scan_all(path_to_data):
     return output
 
 dataset_structure = scan_all(path_prefix)
-print(dataset_structure)
 
 
 # In[26]:
