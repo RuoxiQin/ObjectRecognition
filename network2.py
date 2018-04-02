@@ -200,6 +200,11 @@ with tf.Session() as sess:
                 {input_object: features["objects"], 
                 input_scene: features["scenes"], 
                 ground_truth:labels, mode_is_train: False}))
+            print('the ground truth is:')
+            print(sess.run(labels, feed_dict=
+                {input_object: features["objects"], 
+                input_scene: features["scenes"], 
+                ground_truth:labels, mode_is_train: False}))
             print("The loss is:")
             print(loss.eval(feed_dict=
                 {input_object: features["objects"], 
