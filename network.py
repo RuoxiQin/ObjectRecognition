@@ -38,11 +38,12 @@ ydim = train_y.shape[1]
 
 
 
+
 ################################################################################
 #Read Image, and change to BGR
 
-
-im1 = (imread("4.jpg")[:,:,:3]).astype(float32)
+'''
+im1 = (imread("2.jpg")[:,:,:3]).astype(float32)
 #im1 = im1 - mean(im1)
 im1[:, :, 0], im1[:, :, 2] = im1[:, :, 2], im1[:, :, 0]
 
@@ -54,6 +55,13 @@ im3 = (imread("scene-2.jpg")[:,:,:3]).astype(float32)
 #im3 = im3 - mean(im3)
 im3[:, :, 0], im3[:, :, 2] = im3[:, :, 2], im3[:, :, 0]
 
+im4 = (imread("poodle.png")[:,:,:3]).astype(float32)
+#im1 = im1 - mean(im1)
+im4[:, :, 0], im4[:, :, 2] = im4[:, :, 2], im4[:, :, 0]
+'''
+im1 = (imread("dog.png")[:,:,:3]).astype(float32)
+#im1 = im1 - mean(im1)
+im1[:, :, 0], im1[:, :, 2] = im1[:, :, 2], im1[:, :, 0]
 
 ################################################################################
 
@@ -181,8 +189,6 @@ fc6W = tf.Variable(net_data["fc6"][0])
 fc6b = tf.Variable(net_data["fc6"][1])
 fc6 = tf.nn.relu_layer(tf.reshape(maxpool5, [-1, int(prod(maxpool5.get_shape()[1:]))]), fc6W, fc6b)
 
-""" 
-We don't need the rest fully connected layers
 
 #fc7
 #fc(4096, name='fc7')
@@ -190,6 +196,8 @@ fc7W = tf.Variable(net_data["fc7"][0])
 fc7b = tf.Variable(net_data["fc7"][1])
 fc7 = tf.nn.relu_layer(fc6, fc7W, fc7b)
 
+""" 
+We don't need the rest fully connected layers
 #fc8
 #fc(1000, relu=False, name='fc8')
 fc8W = tf.Variable(net_data["fc8"][0])
@@ -207,7 +215,7 @@ sess = tf.Session()
 sess.run(init)
 
 t = time.time()
-output = sess.run(fc6, feed_dict = {x:[im1,im2, im3]})
+output = sess.run(fc7, feed_dict = {x:[im1]})
 ################################################################################
 
 #Output:
@@ -222,13 +230,21 @@ o2 = output[1]
 o2_sparsed = np.multiply(o2, o0)
 o3 = output[2]
 o3_sparsed = np.multiply(o3, o0)
+o4 = output[3]
+o4_sparsed = np.multiply(o4, o0)
 print(np.linalg.norm(o1 - o2_sparsed))
 print(np.linalg.norm(o2_sparsed - o3_sparsed))
 print(np.linalg.norm(o1 - o3_sparsed))
+print("---------different----")
+print(np.linalg.norm(o1 - o4_sparsed))
+
+print("---------sparsed----")
 
 print(np.linalg.norm(o1 - o2))
 print(np.linalg.norm(o2 - o3))
 print(np.linalg.norm(o1 - o3))
+print("---------different----")
+print(np.linalg.norm(o1 - o4))
 
 """
 for input_im_ind in range(output.shape[0]):
