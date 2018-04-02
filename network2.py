@@ -194,7 +194,6 @@ with tf.Session() as sess:
                 np.array(features["objects"]).astype(np.float32)
             features["scenes"] = np.array(features["scenes"]).astype(np.float32)
             labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
-            labels = round_01(labels).astype(np.float32)
             print('the logit is:')
             print(sess.run(logits, feed_dict=
                 {input_object: features["objects"], 
@@ -210,6 +209,7 @@ with tf.Session() as sess:
                 {input_object: features["objects"], 
                 input_scene: features["scenes"], 
                 ground_truth:labels, mode_is_train: False}))
+            labels = round_01(labels).astype(np.float32)
             print("The accuracy is:")
             train_accuracy = accuracy.eval(feed_dict=
                 {input_object: features["objects"], 
