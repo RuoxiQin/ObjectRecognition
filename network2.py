@@ -6,7 +6,7 @@ from gen_train import input_func
 import timeit
 
 PICTURE_SIZE = 227
-LEARN_RATE = 0.001
+LEARN_RATE = 0.1
 TRAIN_STEPS = 301
 
 def round_01(x):
