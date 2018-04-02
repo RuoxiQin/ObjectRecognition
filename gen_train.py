@@ -26,6 +26,7 @@ obj_suffix = '.JPG'
 file_scene = 'scene.jpg'
 file_xml = 'scene.xml'
 obj_dim = 500
+occ_para = 0.9
 
 ikea_scenes = [
     'bathroom', 'bedroom', 'childrenroom', 
@@ -98,9 +99,6 @@ def backtrack_path(target_num, path_to_data):
 # # GENERATE TRAINING PICS
 
 # In[151]:
-
-
-occ_para = 0.7
 
 # get obj from xml 
 def bound_xml(tup, path):
