@@ -136,10 +136,12 @@ last_cnn_object = generate_CNN(input_object)
 last_cnn_scene = generate_CNN(input_scene)
 # Concatenate two layer
 concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
-# Add 1 fully connected hidden layer after the cnn
+# Add 2 fully connected hidden layer after the cnn
 dense1 = tf.layers.dense(inputs=concat_layer, units=8192, activation=tf.nn.relu)
 dropout1 = tf.layers.dropout(inputs=dense1, rate=0.5, training = mode_is_train)
-logits = tf.layers.dense(inputs=dropout1, units=1)
+dense2 = tf.layers.dense(inputs=dropout1, units=8192, activation=tf.nn.relu)
+dropout2 = tf.layers.dropout(inputs=dense2, rate=0.5, training = mode_is_train)
+logits = tf.layers.dense(inputs=dropout2, units=1)
 # define loss function
 loss = tf.nn.sigmoid_cross_entropy_with_logits(logits=logits, 
     labels=ground_truth)
