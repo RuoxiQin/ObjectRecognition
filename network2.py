@@ -7,8 +7,11 @@ import timeit
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.001
-TRAIN_STEPS = 151
+TRAIN_STEPS = 301
 
+def round_01(x):
+    return 0 if x < 0.5 else 1
+round_01 = np.vectorize(round_01)
 
 def conv(input, kernel, biases, k_h, k_w, c_o, s_h, s_w, padding="VALID", 
     group=1):
@@ -193,10 +196,15 @@ with tf.Session() as sess:
                 np.array(features["objects"]).astype(np.float32)
             features["scenes"] = np.array(features["scenes"]).astype(np.float32)
             labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
+            labels = round_01(labels).astype(np.float32)
+            print("The accuracy is:")
             train_accuracy = accuracy.eval(feed_dict=
                 {input_object: features["objects"], 
                 input_scene: features["scenes"], 
                 ground_truth:labels, mode_is_train: False})
             print("Step %d, training accuracy of this batch is %f" % (step,   
                 train_accuracy))
+            test_end_time = timeit.default_timer()
+            print("The testing time is %d" % \
+                (test_end_time - save_end_time))
 
