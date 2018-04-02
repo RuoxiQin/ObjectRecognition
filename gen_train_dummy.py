@@ -197,3 +197,7 @@ def input_func():
 
 
 # In[38]:
+
+
+features, labels = input_func()
+

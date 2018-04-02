@@ -1,3 +1,9 @@
+
+# coding: utf-8
+
+# In[4]:
+
+
 # imports
 
 import os.path
@@ -5,6 +11,11 @@ import numpy as np
 import cv2
 import random
 import xml.etree.ElementTree as ET
+
+
+# # DATASET SORTINGS
+
+# In[5]:
 
 
 # Init parameters
@@ -20,9 +31,11 @@ ikea_scenes = [
     'bathroom', 'bedroom', 'childrenroom', 
     'hallway', 'homeoffice', 'kitchen', 
     'laundry', 'livingroom', 'outdoor']
-    
-    
-    
+
+
+# In[25]:
+
+
 # compute the dataset_structure
 
 def scan_num_obj(path):
@@ -56,7 +69,10 @@ def scan_all(path_to_data):
     return output
 
 dataset_structure = scan_all(path_prefix)
+print(dataset_structure)
 
+
+# In[26]:
 
 
 # backtrack the path to the objects
@@ -67,6 +83,7 @@ def backtrack_path(target_num, path_to_data):
     found = False
     for x in dataset_structure:
         for y in x:
+            scene_num = 0
             if (target_num <= y):
                 found = True
                 break
@@ -77,20 +94,22 @@ def backtrack_path(target_num, path_to_data):
             break
         scene_loc += 1
     return (scene_loc, scene_num + 1, target_num)
-    
-    
-    
-    
-    
+
+
+# # GENERATE TRAINING PICS
+
+# In[151]:
+
+
+occ_para = 0.7
+
 # get obj from xml 
 def bound_xml(tup, path):
-    path_to_xml = path + ikea_scenes[tup[0]] + '/' \
-            + dir_prefix + str(tup[1]) + '/' \
-            + file_xml
+    path_to_xml = path + ikea_scenes[tup[0]] + '/'             + dir_prefix + str(tup[1]) + '/'             + file_xml
     target_obj = tup[2] 
-    
     # XML parsing
-    found = False 
+    Found = False 
+    occluded = False
     tree = ET.parse(path_to_xml)
     root = tree.getroot()
     for obj in root.iter('object'):
@@ -102,20 +121,24 @@ def bound_xml(tup, path):
                 y = int(pt.find('y').text)
                 x_list.append(x)
                 y_list.append(y)
+            
             Found = True # Found!
+            if obj.find('occluded').text == 'yes':
+                occluded = True
             break
         else: 
             continue 
     if Found:
-        return min(x_list), max(x_list), min(y_list), max(y_list)
+        return (min(x_list), max(x_list), min(y_list), max(y_list)), occluded
     else: 
-        return 0,0,0,0
+        return (0,0,0,0), occluded
 
 # backtrack path 
-def backtrack_tuple(tup, path):
-    return (path + ikea_scenes[tup[0]] + '/' \
-            + dir_prefix + str(tup[1]) + '/' \
-            + str(tup[2]) + obj_suffix)
+def backtrack_tuple_obj(tup, path):
+    return (path + ikea_scenes[tup[0]] + '/'             + dir_prefix + str(tup[1]) + '/'             + str(tup[2]) + obj_suffix)
+
+def backtrack_tuple_scene(tup, path):
+    return (path + ikea_scenes[tup[0]] + '/'             + dir_prefix + str(tup[1]) + '/'             + file_scene)
 
 # cropping script 
 def img_crop(img, dim = (227, 227), loc = None):
@@ -129,29 +152,66 @@ def img_crop(img, dim = (227, 227), loc = None):
 
 ##### training data generation ######
 
-def gen_object(target_object, tup):
+def gen_object(tup):
     return_imgs = []
     
     # backtracking path 
-    t_p = backtrack_tuple(t_p_tuple, path_prefix) 
+    t_p = backtrack_tuple_obj(tup, path_prefix) 
     
     o_img = cv2.imread(t_p) 
     # gen cropped obj's
-    for i in range(2):
+    for i in range(50):
         r_4 = [random.getrandbits(1) for j in range(4)]
-        return_imgs.append( \
-            img_crop(o_img, loc = \
-            [(r_4[0], r_4[1]), \
-            (obj_dim - 1 - r_4[2], obj_dim - 1 - r_4[3])] \
-            ))
+        return_imgs.append(             img_crop(o_img, loc =             [(r_4[0], r_4[1]),             (obj_dim - 1 - r_4[2], obj_dim - 1 - r_4[3])]             ))
         
         #### Testing codes
         # cv2.imwrite(str(i)+'_test.jpg', return_imgs[i])
     return return_imgs
 
-def gen_scene_1(target_object, bounds):
+def gen_scene_1(tup, bounds):
+    return_imgs = []
     
-    return [np.array([])]
+    # parse image 
+    t_p = backtrack_tuple_scene(tup, path_prefix)
+    o_scene = cv2.imread(t_p)
+    o_scene_dim = o_scene.shape
+    sq_dim = min(
+            int(max(bounds[1]-bounds[0], bounds[3]-bounds[2]) * 1.2), 
+            min(o_scene_dim[0], o_scene_dim[1]))
+    _tl = [int((bounds[2]+bounds[3] - sq_dim)/ 2), 
+               int((bounds[0]+bounds[1] - sq_dim)/ 2)]
+    tl = [max(_tl[0] - max(0, _tl[0] + sq_dim - o_scene_dim[0]), 0),
+            max(_tl[1] - max(0, _tl[1] + sq_dim - o_scene_dim[1]), 0)]
+    n_scene = img_crop(
+                o_scene, dim = (sq_dim, sq_dim), loc = \
+                [(tl[0],tl[1]),(tl[0] + sq_dim - 1,tl[1] + sq_dim - 1)])
+    for i in range(25):
+        r_4 = [random.randint(0,5) for j in range(4)]
+        return_imgs.append(             img_crop(n_scene, loc =             [(r_4[0], r_4[1]),             (sq_dim - 1 - r_4[2], sq_dim - 1 - r_4[3])]             ))
+        # cv2.imwrite('Temp/' + str(i)+'_test.jpg', return_imgs[i])
+    return return_imgs
+
+def gen_scene_0(tup, bounds):
+    return_imgs = []
+    
+    # parse next scene
+    if tup[1] < len(dataset_structure[tup[0]]):
+        new_tup = (tup[0], tup[1] + 1, tup[2])
+    else:
+        new_tup = (tup[0], 1, tup[2])
+    
+    # parse image 
+    t_p = backtrack_tuple_scene(new_tup, path_prefix)
+    o_scene = cv2.imread(t_p)
+    o_scene_dim = o_scene.shape
+    increment = int((min([o_scene_dim[0], o_scene_dim[1]])-1) / 5)
+    for i in range(1,6):
+        for j in range(1,6):
+            tl = (random.randint(0, o_scene_dim[0] - i * increment - 1), 
+                  random.randint(0, o_scene_dim[1] - i * increment - 1))
+            br = (tl[0] + i * increment - 1, tl[1] + i * increment - 1)
+            return_imgs.append(img_crop(o_scene, loc = [tl, br]))
+    return return_imgs
 
 ##### INPUT FUNC #####
 
@@ -161,33 +221,43 @@ def input_func():
     target_obj = random.sample(range(1,n+1),20)
     
     # init
-    features = {'object': [], 'scene': []}
+    features = {'objects': [], 'scenes': []}
     labels = []
     
     for x in target_obj:
         #### get xml, otherwise reroll until found 
-        get_xml = bound_xml(x, path_prefix)
+        obj_tuple = backtrack_path(x, path_prefix)
+        get_xml, occluded = bound_xml(obj_tuple, path_prefix)
         while get_xml == (0,0,0,0):
             x = random.randint(1, n)
-            get_xml = bound_xml(x, path_prefix)
+            obj_tuple = backtrack_path(x, path_prefix) 
+            get_xml, occluded = bound_xml(obj_tuple, path_prefix)
         
-        obj_tuple = backtrack_path(x, path_prefix) 
         #### objects 
-        obj_list = gen_object(x, obj_tuple)
+        obj_list = gen_object(obj_tuple)
         features['objects'].extend(obj_list)
         
-        #### 
-        fts, ls = gen_scene_1(x, get_xml) # 25
+        #### scenes
+        ## 1
+        fts = gen_scene_1(obj_tuple, get_xml) # 25
         features['scenes'].extend(fts) 
-        labels.extend(ls)
-        
-        fts, ls = gen_scene_0(x) # 25
+        for i in range(25):
+            if occluded:
+                labels.append(occ_para)
+            else:
+                labels.append(1)
+        ## 0
+        fts = gen_scene_0(obj_tuple, get_xml) # 25
         features['scenes'].extend(fts) 
         for i in range(25):
             labels.append(0)
     
     return features, labels
 
+"""
+features, labels = input_func()
+print(len(features['objects']))
+print(len(features['scenes']))
+print(len(labels))
+"""
 
-
-    
