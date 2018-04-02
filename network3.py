@@ -190,6 +190,11 @@ with tf.Session() as sess:
             print("The saving time is: %d" % \
                 (save_end_time - end_time))
             print("Step %d trained weight has saved" % step)
+            features, labels = input_func()
+            features["objects"] = \
+                np.array(features["objects"]).astype(np.float32)
+            features["scenes"] = np.array(features["scenes"]).astype(np.float32)
+            labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
             train_accuracy = accuracy.eval(feed_dict=
                 {input_object: features["objects"], 
                 input_scene: features["scenes"], 
