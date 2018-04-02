@@ -131,12 +131,21 @@ def generate_CNN(input_layer):
 
 mode_is_train = tf.placeholder(tf.bool)
 # Input layers
+'''
 input_object = tf.placeholder(tf.float32, [None, PICTURE_SIZE, PICTURE_SIZE, 3])
 input_scene = tf.placeholder(tf.float32, [None, PICTURE_SIZE, PICTURE_SIZE, 3])
 ground_truth = tf.placeholder(tf.float32, [None, 1])
+'''
+input_object = tf.placeholder(tf.float32, [None, 4096])
+input_scene = tf.placeholder(tf.float32, [None, 4096])
+ground_truth = tf.placeholder(tf.float32, [None, 1])
 # Use the pretrained AlexNet weight to form the CNN
+'''
 last_cnn_object = generate_CNN(input_object)
 last_cnn_scene = generate_CNN(input_scene)
+'''
+last_cnn_object = input_object
+last_cnn_scene = input_scene
 # Concatenate two layer
 concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
 # Add 1 fully connected hidden layer after the cnn
@@ -151,7 +160,9 @@ loss = tf.square(loss)
 loss = tf.reduce_mean(loss)
 #loss = tf.losses.mean_squared_error(predictions=sig_logits, labels=ground_truth)
 # add optimizer, this a symbolic ops to do gradient descent
-train_step = tf.train.AdamOptimizer(LEARN_RATE).minimize(loss)
+optimizer = tf.train.AdamOptimizer(LEARN_RATE)
+train_step = optimizer.minimize(loss)
+#grad, var = optimizer.compute_gradients()
 # add evaluate ops, this is used to evaluate the model
 predicted_class = tf.greater(logits, 0.5)
 correct = tf.equal(predicted_class, tf.equal(ground_truth, 1.0))
@@ -164,10 +175,16 @@ saver = tf.train.Saver()
 with tf.Session() as sess:
     sess.run(init)
 
+    '''
     features, labels = input_func()
     features["objects"] = np.array(features["objects"]).astype(np.float32)
     features["scenes"] = np.array(features["scenes"]).astype(np.float32)
     labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
+    '''
+    features = {}
+    features["objects"] = np.random.rand(200, 4096).astype(np.float32)
+    features["scenes"] = np.random.rand(200, 4096).astype(np.float32)
+    labels = np.random.randint(0, 2, size=(200, 1)).astype(np.float32)
 
     # Training phase
     print("In training phase:")
