@@ -27,6 +27,7 @@ file_scene = 'scene.jpg'
 file_xml = 'scene.xml'
 obj_dim = 500
 occ_para = 0.9
+epoch_size = 100 # must be a multiple of 50
 
 ikea_scenes = [
     'bathroom', 'bedroom', 'childrenroom', 
@@ -215,7 +216,7 @@ def gen_scene_0(tup, bounds):
 def input_func():
     # choose target objects randomly
     n = 3574
-    target_obj = random.sample(range(1,n+1),20)
+    target_obj = random.sample(range(1,n+1), int(epoch_size / 50))
     
     # init
     features = {'objects': [], 'scenes': []}
