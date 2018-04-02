@@ -143,9 +143,9 @@ concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
 dense1 = tf.layers.dense(inputs=concat_layer, units=8192, activation=tf.nn.relu)
 dropout1 = tf.layers.dropout(inputs=dense1, rate=0.5, training = mode_is_train)
 logits = tf.layers.dense(inputs=dropout1, units=1)
-logits = tf.sigmoid(logits)
+sig_logits = tf.sigmoid(logits)
 # define loss function
-loss = tf.losses.mean_squared_error(predictions=logits, labels=ground_truth)
+loss = tf.losses.mean_squared_error(predictions=sig_logits, labels=ground_truth)
 # add optimizer, this a symbolic ops to do gradient descent
 train_step = tf.train.AdamOptimizer(LEARN_RATE).minimize(loss)
 # add evaluate ops, this is used to evaluate the model
@@ -195,6 +195,11 @@ with tf.Session() as sess:
             features["scenes"] = np.array(features["scenes"]).astype(np.float32)
             labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
             labels = round_01(labels).astype(np.float32)
+            print('the logit is:')
+            print(sess.run(logits, feed_dict=
+                {input_object: features["objects"], 
+                input_scene: features["scenes"], 
+                ground_truth:labels, mode_is_train: False}))
             print("The loss is:")
             print(loss.eval(feed_dict=
                 {input_object: features["objects"], 
