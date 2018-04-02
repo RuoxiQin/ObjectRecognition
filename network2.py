@@ -147,7 +147,10 @@ last_cnn_scene = generate_CNN(input_scene)
 last_cnn_object = input_object
 last_cnn_scene = input_scene
 # Concatenate two layer
+'''
 concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
+'''
+concat_layer = last_cnn_object
 # Add 1 fully connected hidden layer after the cnn
 dense1 = tf.layers.dense(inputs=concat_layer, units=8192, 
     activation=tf.sigmoid)
@@ -226,11 +229,6 @@ with tf.Session() as sess:
             '''
             print('the logit is:')
             print(sess.run(logits, feed_dict=
-                {input_object: features["objects"], 
-                input_scene: features["scenes"], 
-                ground_truth:labels, mode_is_train: False}))
-            print('the ground truth is:')
-            print(sess.run(ground_truth, feed_dict=
                 {input_object: features["objects"], 
                 input_scene: features["scenes"], 
                 ground_truth:labels, mode_is_train: False}))
