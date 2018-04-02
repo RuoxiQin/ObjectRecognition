@@ -146,7 +146,7 @@ dropout1 = tf.layers.dropout(inputs=dense1, rate=0.5, training = mode_is_train)
 logits = tf.layers.dense(inputs=dropout1, units=1)
 sig_logits = tf.sigmoid(logits)
 # define loss function
-loss = tf.substract(sig_logits, ground_truth)
+loss = tf.subtract(sig_logits, ground_truth)
 loss = tf.square(loss)
 loss = tf.reduce_mean(loss)
 #loss = tf.losses.mean_squared_error(predictions=sig_logits, labels=ground_truth)
