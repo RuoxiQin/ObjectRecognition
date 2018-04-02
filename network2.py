@@ -160,15 +160,22 @@ saver = tf.train.Saver()
 with tf.Session() as sess:
     sess.run(init)
 
+    features, labels = input_func()
+    features["objects"] = np.array(features["objects"]).astype(np.float32)
+    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
+    labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
+
     # Training phase
     print("In training phase:")
     for step in range(TRAIN_STEPS):
         print("Step %d training" % step)
         start_time = timeit.default_timer()
+        '''
         features, labels = input_func()
         features["objects"] = np.array(features["objects"]).astype(np.float32)
         features["scenes"] = np.array(features["scenes"]).astype(np.float32)
         labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
+        '''
         train_step.run(feed_dict=
             {input_object: features["objects"], 
             input_scene: features["scenes"], 
@@ -189,11 +196,13 @@ with tf.Session() as sess:
             print("The saving time is: %d" % \
                 (save_end_time - end_time))
             print("Step %d trained weight has saved" % step)
+            '''
             features, labels = input_func()
             features["objects"] = \
                 np.array(features["objects"]).astype(np.float32)
             features["scenes"] = np.array(features["scenes"]).astype(np.float32)
             labels = np.array(labels).reshape((-1, 1)).astype(np.float32)
+            '''
             print('the logit is:')
             print(sess.run(logits, feed_dict=
                 {input_object: features["objects"], 
@@ -209,12 +218,12 @@ with tf.Session() as sess:
                 {input_object: features["objects"], 
                 input_scene: features["scenes"], 
                 ground_truth:labels, mode_is_train: False}))
-            labels = round_01(labels).astype(np.float32)
+            _labels = round_01(labels).astype(np.float32)
             print("The accuracy is:")
             train_accuracy = accuracy.eval(feed_dict=
                 {input_object: features["objects"], 
                 input_scene: features["scenes"], 
-                ground_truth:labels, mode_is_train: False})
+                ground_truth:_labels, mode_is_train: False})
             print("Step %d, training accuracy of this batch is %f" % (step,   
                 train_accuracy))
             test_end_time = timeit.default_timer()
