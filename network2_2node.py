@@ -4,10 +4,17 @@ import os
 from caffe_classes import class_names
 from gen_train_2node import input_func
 import timeit
+import sys
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.1
 TRAIN_STEPS = 301
+
+if sys.argv[1] == '1':
+    load_net = True
+else:
+    load_net = False
+
 
 def round_01(x):
     return 0 if x < 0.5 else 1
@@ -140,7 +147,7 @@ last_cnn_scene = generate_CNN(input_scene)
 # Concatenate two layer
 concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
 # Add 1 fully connected hidden layer after the cnn
-dense1 = tf.layers.dense(inputs=concat_layer, units=8192, activation=tf.nn.relu)
+dense1 = tf.layers.dense(inputs=concat_layer, units=8192, activation=tf.sigmoid)
 dropout1 = tf.layers.dropout(inputs=dense1, rate=0.5, training = mode_is_train)
 logits = tf.layers.dense(inputs=dropout1, units=2)
 # define loss function
