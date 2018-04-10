@@ -243,9 +243,6 @@ def main():
     features["objects"] = np.array(features["objects"]).astype(np.float32)
     features["scenes"] = np.array(features["scenes"]).astype(np.float32)
     train_labels = np.array(labels).astype(np.int32)
-    eval_data1 = train_data1
-    eval_data2 = train_data2
-    eval_labels = train_labels
     def dummy_input_func():
         # Shuffle the data
         index = np.arange(train_labels.shape[0])
