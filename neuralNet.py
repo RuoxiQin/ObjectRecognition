@@ -17,6 +17,9 @@ PICTURE_SIZE = 227
 LEARN_RATE = 0.0001
 TRAIN_STEPS = 3000
 CLASS_NUM = 2
+TRAIN = 0
+EVAL = 1
+PREDICT = 2
 
 class inputs:
     features, labels = input_func()
@@ -227,7 +230,7 @@ def model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(\
         mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
-def main():
+def main(status, features=None):
     """
     Load the training and testing data
     """
@@ -250,27 +253,41 @@ def main():
         num_epochs=None,
         shuffle=True)
     '''
-    '''
-    classifier.train(
-        input_fn=train_input_fn,
-        steps=TRAIN_STEPS,
-        hooks=[logging_hook])
-    '''
-
-    # Evaluate the model and print results
-    for i in range(10):
-        features, labels = input_func()
-        features["objects"] = np.array(features["objects"]).astype(np.float32)
-        features["scenes"] = np.array(features["scenes"]).astype(np.float32)
-        labels = np.array(labels).astype(np.int32)
-        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-            x=features,
-            y=labels,
-            num_epochs=1,
-            shuffle=False)
-        eval_results = classifier.evaluate(input_fn=eval_input_fn)
-        print(eval_results)
+    if status == TRAIN:
+        classifier.train(
+            input_fn=train_input_fn,
+            steps=TRAIN_STEPS,
+            hooks=[logging_hook])
+    elif status == EVAL:
+        # Evaluate the model and print results
+        for i in range(10):
+            features, labels = input_func()
+            features["objects"] = \
+                np.array(features["objects"]).astype(np.float32)
+            features["scenes"] = \
+                np.array(features["scenes"]).astype(np.float32)
+            labels = np.array(labels).astype(np.int32)
+            eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+                x=features,
+                y=labels,
+                num_epochs=1,
+                shuffle=False)
+            eval_results = classifier.evaluate(input_fn=eval_input_fn)
+            print(eval_results)
+    elif status == PREDICT and features is not None:
+            features["objects"] = \
+                np.array(features["objects"]).astype(np.float32)
+            features["scenes"] = \
+                np.array(features["scenes"]).astype(np.float32)
+            predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+                x=features,
+                num_epochs=1,
+                shuffle=False)
+            predict_results = classifier.predict(\
+                input_fn=predict_input_fn,
+                yield_single_examples=True)
+            print(predict_results)
 
 
 if __name__ == "__main__":
-    main()
+    main(EVAL)
