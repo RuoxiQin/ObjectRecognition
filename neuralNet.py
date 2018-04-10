@@ -15,8 +15,24 @@ import sys
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.001
-TRAIN_STEPS = 8000
+TRAIN_STEPS = 500
 CLASS_NUM = 2
+
+class inputs:
+    features, labels = input_func()
+    features["objects"] = np.array(features["objects"]).astype(np.float32)
+    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
+    labels = np.array(labels).astype(np.int32)
+    # Shuffle the data
+    index = np.arange(labels.shape[0])
+    np.random.shuffle(index)
+    features["objects"] = features["objects"][index]
+    features["scenes"] = features["scenes"][index]
+    labels = labels[index]
+
+def input_func():
+    return inputs.features, inputs.labels
+        
 
 def train_input_fn():
     """
@@ -255,7 +271,7 @@ def main():
     """
 
     # Create the Estimator
-    classifier = tf.estimator.Estimator(model_fn=model_fn, model_dir="./tmp")
+    classifier = tf.estimator.Estimator(model_fn=model_fn, model_dir="./tmp_test")
 
     # Setup logging hook for prediction
     tf.logging.set_verbosity(tf.logging.INFO)
@@ -272,26 +288,23 @@ def main():
         num_epochs=None,
         shuffle=True)
     '''
-    '''
     classifier.train(
-        input_fn=train_input_fn,
+        input_fn=input_func,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
-    '''
 
     # Evaluate the model and print results
-    for i in range(10):
-        features, labels = input_func()
-        features["objects"] = np.array(features["objects"]).astype(np.float32)
-        features["scenes"] = np.array(features["scenes"]).astype(np.float32)
-        labels = np.array(labels).astype(np.int32)
-        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-            x=features,
-            y=labels,
-            num_epochs=1,
-            shuffle=False)
-        eval_results = classifier.evaluate(input_fn=eval_input_fn)
-        print(eval_results)
+    features, labels = input_func()
+    features["objects"] = np.array(features["objects"]).astype(np.float32)
+    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
+    labels = np.array(labels).astype(np.int32)
+    eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x=inputs.features,
+        y=inputs.labels,
+        num_epochs=1,
+        shuffle=False)
+    eval_results = classifier.evaluate(input_fn=eval_input_fn)
+    print(eval_results)
 
 
 if __name__ == "__main__":
