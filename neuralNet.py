@@ -15,7 +15,7 @@ import sys
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.001
-TRAIN_STEPS = 2000
+TRAIN_STEPS = 4000
 CLASS_NUM = 2
 
 class inputs:
