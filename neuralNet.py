@@ -15,7 +15,7 @@ import sys
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.001
-TRAIN_STEPS = 2000
+TRAIN_STEPS = 1000
 CLASS_NUM = 2
 
 def train_input_fn():
@@ -250,7 +250,7 @@ def main():
     tf.logging.set_verbosity(tf.logging.INFO)
     tensors_to_log = {"probabilities": "softmax_tensor"}
     logging_hook = tf.train.LoggingTensorHook(
-        tensors=tensors_to_log, every_n_iter=20)
+        tensors=tensors_to_log, every_n_iter=50)
 
     # Train the model
     '''
