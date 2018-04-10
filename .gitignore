@@ -1,1 +1,6 @@
 bvlc_alexnet.npy
+tmp
+__pycache__
+.vscode
+*.ipynb
+*.zip

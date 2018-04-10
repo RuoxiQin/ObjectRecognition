@@ -194,7 +194,7 @@ def main():
     Load the training and testing data
     """
     # Generate the dummy training and testing data
-    DUPLICATION = 1
+    DUPLICATION = 5
     DATA_TYPE = 4
     data = []
     for i in range(DATA_TYPE):
@@ -222,13 +222,13 @@ def main():
     tf.logging.set_verbosity(tf.logging.INFO)
     tensors_to_log = {"probabilities": "softmax_tensor"}
     logging_hook = tf.train.LoggingTensorHook(
-        tensors=tensors_to_log, every_n_iter=10)
+        tensors=tensors_to_log, every_n_iter=4096)
 
     # Train the model
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"objects": train_data1, "scenes": train_data2},
         y=train_labels,
-        batch_size=1,
+        batch_size=5,
         num_epochs=None,
         shuffle=True)
     classifier.train(
