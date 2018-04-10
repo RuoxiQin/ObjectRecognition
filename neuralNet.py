@@ -18,6 +18,16 @@ LEARN_RATE = 0.001
 TRAIN_STEPS = 2000
 CLASS_NUM = 2
 
+def train_input_fn():
+    """
+    The input function of our neural net
+    """
+    features, labels = input_func()
+    features["objects"] = np.array(features["objects"]).astype(np.float32)
+    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
+    labels = np.array(labels).astype(np.int32)
+    return features, labels
+
 
 def conv(input, kernel, biases, k_h, k_w, c_o, s_h, s_w, padding="VALID", 
     group=1):
@@ -222,6 +232,8 @@ def main():
     eval_data2 = train_data2
     eval_labels = train_labels
     """
+    # Generate the dummy training data using real pictures
+    """
     features, labels = input_func()
     train_data1 = np.array(features["objects"]).astype(np.float32)
     train_data2 = np.array(features["scenes"]).astype(np.float32)
@@ -229,6 +241,7 @@ def main():
     eval_data1 = train_data1
     eval_data2 = train_data2
     eval_labels = train_labels
+    """
 
     # Create the Estimator
     classifier = tf.estimator.Estimator(model_fn=model_fn, model_dir="./tmp")
@@ -240,23 +253,28 @@ def main():
         tensors=tensors_to_log, every_n_iter=20)
 
     # Train the model
+    '''
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"objects": train_data1, "scenes": train_data2},
         y=train_labels,
         batch_size=10,
         num_epochs=None,
         shuffle=True)
+    '''
     classifier.train(
         input_fn=train_input_fn,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
 
     # Evaluate the model and print results
+    '''
     eval_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"objects": eval_data1, "scenes": eval_data2},
         y=eval_labels,
         num_epochs=1,
         shuffle=False)
+    '''
+    eval_input_fn = train_input_fn
     eval_results = classifier.evaluate(input_fn=eval_input_fn)
     print(eval_results)
 
