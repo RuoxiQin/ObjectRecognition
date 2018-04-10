@@ -30,7 +30,7 @@ def train_input_fn():
         x=features,
         y=labels,
         batch_size=50,
-        num_epochs=1,
+        num_epochs=None,
         shuffle=True)
     return input_f()
 
