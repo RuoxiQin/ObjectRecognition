@@ -287,7 +287,7 @@ def main():
         y=eval_labels,
         num_epochs=1,
         shuffle=True)
-    eval_results = classifier.evaluate(input_fn=eval_input_fn)
+    eval_results = classifier.evaluate(input_fn=train_input_fn)
     print(eval_results)
 
 
