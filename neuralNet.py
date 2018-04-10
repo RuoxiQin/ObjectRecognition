@@ -15,7 +15,7 @@ import sys
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.001
-TRAIN_STEPS = 25
+TRAIN_STEPS = 1000
 CLASS_NUM = 2
 
 def train_input_fn():
