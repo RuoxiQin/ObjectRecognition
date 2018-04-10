@@ -200,6 +200,7 @@ def main():
     Load the training and testing data
     """
     # Generate the dummy training and testing data
+    """
     DUPLICATION = 10
     DATA_TYPE = 10
     data = []
@@ -220,6 +221,14 @@ def main():
     eval_data1 = train_data1
     eval_data2 = train_data2
     eval_labels = train_labels
+    """
+    features, labels = input_func()
+    train_data1 = np.array(features["objects"]).astype(np.float32)
+    train_data2 = np.array(features["scenes"]).astype(np.float32)
+    train_labels = np.array(labels).reshape((-1, 2)).astype(np.float32)
+    eval_data1 = train_data1
+    eval_data2 = train_data2
+    eval_labels = train_labels
 
     # Create the Estimator
     classifier = tf.estimator.Estimator(model_fn=model_fn, model_dir="./tmp")
@@ -234,7 +243,7 @@ def main():
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"objects": train_data1, "scenes": train_data2},
         y=train_labels,
-        batch_size=5,
+        batch_size=10,
         num_epochs=None,
         shuffle=True)
     classifier.train(
