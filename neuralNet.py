@@ -271,7 +271,7 @@ def main():
         num_epochs=None,
         shuffle=True)
     classifier.train(
-        input_fn=dummy_input_func,
+        input_fn=train_input_func,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
 
