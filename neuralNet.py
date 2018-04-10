@@ -271,13 +271,15 @@ def main():
         num_epochs=None,
         shuffle=True)
     '''
+    '''
     classifier.train(
         input_fn=dummy_input_func,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
+    '''
 
     # Evaluate the model and print results
-    eval_features, eval_labels = input_func()
+    eval_features, eval_labels = features, labels
     eval_features["objects"] = \
         np.array(eval_features["objects"]).astype(np.float32)
     eval_features["scenes"] = \
@@ -292,7 +294,7 @@ def main():
         y=eval_labels,
         num_epochs=1,
         shuffle=True)
-    eval_results = classifier.evaluate(input_fn=dummy_input_func)
+    eval_results = classifier.evaluate(input_fn=eval_input_fn)
     print(eval_results)
 
 
