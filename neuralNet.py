@@ -194,8 +194,8 @@ def main():
     Load the training and testing data
     """
     # Generate the dummy training and testing data
-    DUPLICATION = 5
-    DATA_TYPE = 4
+    DUPLICATION = 10
+    DATA_TYPE = 10
     data = []
     for i in range(DATA_TYPE):
         data.append(\
