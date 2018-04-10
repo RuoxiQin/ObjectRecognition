@@ -275,7 +275,7 @@ def main():
         shuffle=False)
     '''
     eval_input_fn = train_input_fn
-    eval_results = classifier.evaluate(input_fn=eval_input_fn)
+    eval_results = classifier.evaluate(input_fn=train_input_fn)
     print(eval_results)
 
 
