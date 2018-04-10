@@ -267,15 +267,18 @@ def main():
         hooks=[logging_hook])
 
     # Evaluate the model and print results
-    '''
+    eval_features, eval_labels = input_func()
+    eval_features["objects"] = \
+        np.array(eval_features["objects"]).astype(np.float32)
+    eval_features["scenes"] = \
+        np.array(eval_features["scenes"]).astype(np.float32)
+    eval_labels = np.array(eval_labels).astype(np.int32)
     eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x={"objects": eval_data1, "scenes": eval_data2},
+        x=eval_features,
         y=eval_labels,
         num_epochs=1,
         shuffle=False)
-    '''
-    eval_input_fn = train_input_fn
-    eval_results = classifier.evaluate(input_fn=train_input_fn)
+    eval_results = classifier.evaluate(input_fn=eval_input_fn)
     print(eval_results)
 
 
