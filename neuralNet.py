@@ -243,6 +243,7 @@ def main():
     features["objects"] = np.array(features["objects"]).astype(np.float32)
     features["scenes"] = np.array(features["scenes"]).astype(np.float32)
     labels = np.array(labels).astype(np.int32)
+    '''
     def dummy_input_func():
         # Shuffle the data
         index = np.arange(train_labels.shape[0])
@@ -251,7 +252,7 @@ def main():
         features["scenes"] = features["scenes"][index]
         labels = train_labels[index]
         return features, labels
-    
+    '''
 
     # Create the Estimator
     classifier = tf.estimator.Estimator(model_fn=model_fn, model_dir="./tmp")
