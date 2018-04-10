@@ -26,7 +26,7 @@ obj_suffix = '.JPG'
 file_scene = 'scene.jpg'
 file_xml = 'scene.xml'
 obj_dim = 500
-occ_para = 0.9
+occ_para = 1.0
 epoch_size = 100 # must be a multiple of 50
 
 ikea_scenes = [

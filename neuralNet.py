@@ -9,7 +9,7 @@ import numpy as np
 import tensorflow as tf
 import os
 from caffe_classes import class_names
-from gen_train_2node import input_func
+from gen_train import input_func
 import timeit
 import sys
 
@@ -225,7 +225,7 @@ def main():
     features, labels = input_func()
     train_data1 = np.array(features["objects"]).astype(np.float32)
     train_data2 = np.array(features["scenes"]).astype(np.float32)
-    train_labels = np.array(labels).reshape((-1, 2)).astype(np.float32)
+    train_labels = np.array(labels).astype(np.int32)
     eval_data1 = train_data1
     eval_data2 = train_data2
     eval_labels = train_labels
