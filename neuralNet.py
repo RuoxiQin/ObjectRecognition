@@ -30,7 +30,7 @@ class inputs:
     features["scenes"] = features["scenes"][index]
     labels = labels[index]
 
-def input_func():
+def dummy_input_fn():
     return inputs.features, inputs.labels
         
 
@@ -231,47 +231,9 @@ def main():
     """
     Load the training and testing data
     """
-    # Generate the dummy training and testing data
-    """
-    DUPLICATION = 10
-    DATA_TYPE = 10
-    data = []
-    for i in range(DATA_TYPE):
-        data.append(\
-            np.random.rand(1, PICTURE_SIZE, PICTURE_SIZE, 3).astype(np.float32))
-        data[i] = np.repeat(data[i], DUPLICATION, axis=0)
-    train_data1 = np.concatenate(data, axis=0)
-    data = []
-    for i in range(DATA_TYPE):
-        data.append(\
-            np.random.rand(1, PICTURE_SIZE, PICTURE_SIZE, 3).astype(np.float32))
-        data[i] = np.repeat(data[i], DUPLICATION, axis=0)
-    train_data2 = np.concatenate(data, axis=0)
-    train_labels = np.concatenate(
-            (np.zeros((DATA_TYPE * DUPLICATION) // 2), 
-            np.ones((DATA_TYPE * DUPLICATION) // 2))).astype(np.int32)
-    eval_data1 = train_data1
-    eval_data2 = train_data2
-    eval_labels = train_labels
-    """
-    """
-    # Generate the dummy training data using real pictures
-    features, labels = input_func()
-    features["objects"] = np.array(features["objects"]).astype(np.float32)
-    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
-    labels = np.array(labels).astype(np.int32)
-    def dummy_input_func():
-        # Shuffle the data
-        index = np.arange(labels.shape[0])
-        np.random.shuffle(index)
-        features["objects"] = features["objects"][index]
-        features["scenes"] = features["scenes"][index]
-        labels = labels[index]
-        return features, labels
-    """
-
     # Create the Estimator
-    classifier = tf.estimator.Estimator(model_fn=model_fn, model_dir="./tmp_test")
+    classifier = tf.estimator.Estimator(\
+        model_fn=model_fn, model_dir="./tmp")
 
     # Setup logging hook for prediction
     tf.logging.set_verbosity(tf.logging.INFO)
@@ -288,23 +250,26 @@ def main():
         num_epochs=None,
         shuffle=True)
     '''
+    '''
     classifier.train(
-        input_fn=input_func,
+        input_fn=train_input_fn,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
+    '''
 
     # Evaluate the model and print results
-    features, labels = input_func()
-    features["objects"] = np.array(features["objects"]).astype(np.float32)
-    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
-    labels = np.array(labels).astype(np.int32)
-    eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x=inputs.features,
-        y=inputs.labels,
-        num_epochs=1,
-        shuffle=False)
-    eval_results = classifier.evaluate(input_fn=eval_input_fn)
-    print(eval_results)
+    for i in range(10):
+        features, labels = input_func()
+        features["objects"] = np.array(features["objects"]).astype(np.float32)
+        features["scenes"] = np.array(features["scenes"]).astype(np.float32)
+        labels = np.array(labels).astype(np.int32)
+        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x=inputs.features,
+            y=inputs.labels,
+            num_epochs=1,
+            shuffle=False)
+        eval_results = classifier.evaluate(input_fn=eval_input_fn)
+        print(eval_results)
 
 
 if __name__ == "__main__":
