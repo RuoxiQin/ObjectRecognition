@@ -29,8 +29,7 @@ def train_input_fn():
     input_f = tf.estimator.inputs.numpy_input_fn(
         x=features,
         y=labels,
-        batch_size=50,
-        num_epochs=None,
+        num_epochs=1,
         shuffle=True)
     return input_f()
 
