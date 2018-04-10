@@ -283,10 +283,58 @@ def main(status, features=None, labels=None):
             input_fn=predict_input_fn)
         return predict_results
 
+class Detector:
+    """
+    The Detector
+    """
+    def __init__(self, model_dir):
+        # Create the Estimator
+        self.classifier = tf.estimator.Estimator(\
+            model_fn=model_fn, model_dir=model_dir)
+        # Setup logging hook for prediction
+        tf.logging.set_verbosity(tf.logging.INFO)
+        tensors_to_log = {"probabilities": "softmax_tensor"}
+        logging_hook = tf.train.LoggingTensorHook(
+            tensors=tensors_to_log, every_n_iter=50)
+
+    def train(self):
+        """
+        Train the model
+        """
+        self.classifier.train(
+            input_fn=train_input_fn,
+            steps=TRAIN_STEPS,
+            hooks=[logging_hook])
+
+    def evaluate(self, features, labels):
+        """
+        Evaluate the model
+        """
+        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x=features,
+            y=labels,
+            num_epochs=1,
+            shuffle=False)
+        eval_results = classifier.evaluate(input_fn=eval_input_fn)
+        return eval_results
+
+    def predict(self, features):
+        """
+        Classify whether the object exists in the scene
+        """
+        predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x=features,
+            num_epochs=1,
+            shuffle=False)
+        predict_results = classifier.predict(\
+            input_fn=predict_input_fn)
+        return predict_results
+
 
 if __name__ == "__main__":
     # Generate a fixed testing data
     if not os.path.isfile(test_file_name):
+        print("No previous testing data!")
         test_features, test_labels = input_func_test()
         test_features["objects"] = \
             np.array(test_features["objects"]).astype(np.float32)
@@ -296,11 +344,14 @@ if __name__ == "__main__":
         test_data = {"features": test_features, "labels": test_labels}
         pickle.dump(test_data, open(test_file_name, "wb"))
     else:
+        print("Load saved testing data!")
         test_data = pickle.load(open(test_file_name, "rb"))
         test_features = test_data["features"]
         test_labels = test_data["labels"]
     # Start training
+    detector = Detector("./tmp")
     for i in range(3):
-        main(TRAIN)
-        print(main(EVAL, features=test_features, labels=test_labels))
+        detector.train()
+        print("Training step %d:" % i)
+        print(detector.predict(test_features, test_labels))
     print("Done!")
