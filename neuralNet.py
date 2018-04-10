@@ -150,11 +150,17 @@ def model_fn(features, labels, mode):
     last_cnn_scene = generate_CNN(input_scene)
     # Concatenate layer
     concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
-    # Dense layer
+    # Dense layer1
     dense1 = tf.layers.dense(inputs=concat_layer, units=4096, \
         activation=tf.nn.relu)
-    # Dropout layer
+    # Dropout layer1
     dropout1 = tf.layers.dropout(inputs=dense1, rate=0.4, \
+        training=(mode == tf.estimator.ModeKeys.TRAIN))
+    # Dense layer2
+    dense2 = tf.layers.dense(inputs=dropout1, units=4096, \
+        activation=tf.nn.relu)
+    # Dropout layer2
+    dropout2 = tf.layers.dropout(inputs=dense2, rate=0.4, \
         training=(mode == tf.estimator.ModeKeys.TRAIN))
     # Logits layer
     logits = tf.layers.dense(inputs=dropout1, units=CLASS_NUM)
