@@ -15,7 +15,7 @@ import sys
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.001
-TRAIN_STEPS = 1000
+TRAIN_STEPS = 25
 CLASS_NUM = 2
 
 def train_input_fn():
@@ -261,12 +261,10 @@ def main():
         num_epochs=None,
         shuffle=True)
     '''
-    '''
     classifier.train(
         input_fn=train_input_fn,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
-    '''
 
     # Evaluate the model and print results
     '''
