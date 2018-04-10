@@ -15,7 +15,7 @@ import sys
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.001
-TRAIN_STEPS = 1000
+TRAIN_STEPS = 500
 CLASS_NUM = 2
 
 def train_input_fn():
@@ -239,15 +239,22 @@ def main():
     eval_labels = train_labels
     """
     # Generate the dummy training data using real pictures
-    """
     features, labels = input_func()
-    train_data1 = np.array(features["objects"]).astype(np.float32)
-    train_data2 = np.array(features["scenes"]).astype(np.float32)
+    features["objects"] = np.array(features["objects"]).astype(np.float32)
+    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
     train_labels = np.array(labels).astype(np.int32)
     eval_data1 = train_data1
     eval_data2 = train_data2
     eval_labels = train_labels
-    """
+    def dummy_input_func():
+        # Shuffle the data
+        index = np.arange(train_labels.shape[0])
+        np.random.shuffle(index)
+        features["objects"] = features["objects"][index]
+        features["scenes"] = features["scenes"][index]
+        labels = train_labels[index]
+        return features, labels
+    
 
     # Create the Estimator
     classifier = tf.estimator.Estimator(model_fn=model_fn, model_dir="./tmp")
@@ -268,7 +275,7 @@ def main():
         shuffle=True)
     '''
     classifier.train(
-        input_fn=train_input_fn,
+        input_fn=dummy_input_func,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
 
@@ -288,7 +295,7 @@ def main():
         y=eval_labels,
         num_epochs=1,
         shuffle=True)
-    eval_results = classifier.evaluate(input_fn=eval_input_fn)
+    eval_results = classifier.evaluate(input_fn=dummy_input_func)
     print(eval_results)
 
 
