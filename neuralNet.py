@@ -286,8 +286,15 @@ def main(status, features=None):
             predict_results = classifier.predict(\
                 input_fn=predict_input_fn,
                 yield_single_examples=True)
-            print(predict_results)
+            for i in range(10):
+                print(next(predict_results))
 
 
 if __name__ == "__main__":
-    main(EVAL)
+    features, labels = input_func()
+    features["objects"] = \
+        np.array(features["objects"]).astype(np.float32)
+    features["scenes"] = \
+        np.array(features["scenes"]).astype(np.float32)
+    labels = np.array(labels).astype(np.int32)
+    main(PREDICT, features=features)
