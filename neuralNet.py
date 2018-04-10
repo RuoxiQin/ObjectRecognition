@@ -273,7 +273,6 @@ def main():
         hooks=[logging_hook])
 
     # Evaluate the model and print results
-    '''
     eval_features, eval_labels = input_func()
     eval_features["objects"] = \
         np.array(eval_features["objects"]).astype(np.float32)
@@ -288,9 +287,8 @@ def main():
         x=eval_features,
         y=eval_labels,
         num_epochs=1,
-        shuffle=False)
-    '''
-    eval_results = classifier.evaluate(input_fn=train_input_fn)
+        shuffle=True)
+    eval_results = classifier.evaluate(input_fn=eval_input_fn)
     print(eval_results)
 
 
