@@ -264,8 +264,8 @@ def main():
         features["scenes"] = np.array(features["scenes"]).astype(np.float32)
         labels = np.array(labels).astype(np.int32)
         eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-            x=inputs.features,
-            y=inputs.labels,
+            x=features,
+            y=labels,
             num_epochs=1,
             shuffle=False)
         eval_results = classifier.evaluate(input_fn=eval_input_fn)
