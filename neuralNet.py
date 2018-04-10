@@ -272,23 +272,26 @@ def main():
         num_epochs=None,
         shuffle=True)
     '''
+    '''
     classifier.train(
         input_fn=train_input_fn,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
+    '''
 
     # Evaluate the model and print results
-    features, labels = input_func()
-    features["objects"] = np.array(features["objects"]).astype(np.float32)
-    features["scenes"] = np.array(features["scenes"]).astype(np.float32)
-    labels = np.array(labels).astype(np.int32)
-    eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x=features,
-        y=labels,
-        num_epochs=1,
-        shuffle=True)
-    eval_results = classifier.evaluate(input_fn=eval_input_fn)
-    print(eval_results)
+    for i in range(10):
+        features, labels = input_func()
+        features["objects"] = np.array(features["objects"]).astype(np.float32)
+        features["scenes"] = np.array(features["scenes"]).astype(np.float32)
+        labels = np.array(labels).astype(np.int32)
+        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x=features,
+            y=labels,
+            num_epochs=1,
+            shuffle=True)
+        eval_results = classifier.evaluate(input_fn=eval_input_fn)
+        print(eval_results)
 
 
 if __name__ == "__main__":
