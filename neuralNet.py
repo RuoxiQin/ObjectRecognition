@@ -273,6 +273,10 @@ def main():
     eval_features["scenes"] = \
         np.array(eval_features["scenes"]).astype(np.float32)
     eval_labels = np.array(eval_labels).astype(np.int32)
+    print("The shape of evaluation data is:")
+    print(eval_features["objects"].shape)
+    print(eval_features["scenes"].shape)
+    print(eval_labels.shape)
     eval_input_fn = tf.estimator.inputs.numpy_input_fn(
         x=eval_features,
         y=eval_labels,
