@@ -250,10 +250,12 @@ def main():
         num_epochs=None,
         shuffle=True)
     '''
+    '''
     classifier.train(
         input_fn=train_input_fn,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
+    '''
 
     # Evaluate the model and print results
     for i in range(10):
