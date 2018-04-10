@@ -13,14 +13,16 @@ from gen_train import input_func
 from gen_test import input_func_test
 import timeit
 import sys
+import pickle
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.0001
-TRAIN_STEPS = 3000
+TRAIN_STEPS = 100
 CLASS_NUM = 2
 TRAIN = 0
 EVAL = 1
 PREDICT = 2
+test_file_name = "test_data.p"
 
 class inputs:
     features, labels = input_func()
@@ -231,7 +233,7 @@ def model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(\
         mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
-def main(status, features=None):
+def main(status, features=None, labels=None):
     """
     Load the training and testing data
     """
@@ -259,43 +261,46 @@ def main(status, features=None):
             input_fn=train_input_fn,
             steps=TRAIN_STEPS,
             hooks=[logging_hook])
-    elif status == EVAL:
+    elif status == EVAL and features is not None and labels is not None:
         # Evaluate the model and print results
-        for i in range(10):
-            features, labels = input_func()
-            features["objects"] = \
-                np.array(features["objects"]).astype(np.float32)
-            features["scenes"] = \
-                np.array(features["scenes"]).astype(np.float32)
-            labels = np.array(labels).astype(np.int32)
-            eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-                x=features,
-                y=labels,
-                num_epochs=1,
-                shuffle=False)
-            eval_results = classifier.evaluate(input_fn=eval_input_fn)
-            print(eval_results)
+        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x=features,
+            y=labels,
+            num_epochs=1,
+            shuffle=False)
+        eval_results = classifier.evaluate(input_fn=eval_input_fn)
+        return eval_results
     elif status == PREDICT and features is not None:
-            features["objects"] = \
-                np.array(features["objects"]).astype(np.float32)
-            features["scenes"] = \
-                np.array(features["scenes"]).astype(np.float32)
-            predict_input_fn = tf.estimator.inputs.numpy_input_fn(
-                x=features,
-                num_epochs=1,
-                shuffle=False)
-            predict_results = classifier.predict(\
-                input_fn=predict_input_fn)
-            for i in range(50):
-                print(next(predict_results))
+        features["objects"] = \
+            np.array(features["objects"]).astype(np.float32)
+        features["scenes"] = \
+            np.array(features["scenes"]).astype(np.float32)
+        predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+            x=features,
+            num_epochs=1,
+            shuffle=False)
+        predict_results = classifier.predict(\
+            input_fn=predict_input_fn)
+        return predict_results
 
 
 if __name__ == "__main__":
-    features, labels = input_func()
-    features["objects"] = \
-        np.array(features["objects"]).astype(np.float32)
-    features["scenes"] = \
-        np.array(features["scenes"]).astype(np.float32)
-    labels = np.array(labels).astype(np.int32)
-    main(PREDICT, features=features)
+    # Generate a fixed testing data
+    if not os.path.isfile(test_file_name):
+        test_features, test_labels = input_func_test()
+        test_features["objects"] = \
+            np.array(test_features["objects"]).astype(np.float32)
+        test_features["scenes"] = \
+            np.array(test_features["scenes"]).astype(np.float32)
+        test_labels = np.array(test_labels).astype(np.int32)
+        test_data = {"features": test_features, "labels": test_labels}
+        pickle.dump(test_data, open(test_file_name, "wb"))
+    else:
+        test_data = pickle.load(open(test_file_name, "rb"))
+        test_features = test_data["features"]
+        test_labels = test_data["labels"]
+    # Start training
+    for i in range(3):
+        main(TRAIN)
+        print(main(EVAL, features=test_features, labels=test_labels))
     print("Done!")
