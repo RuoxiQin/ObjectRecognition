@@ -267,7 +267,7 @@ def main():
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x=features,
         y=labels,
-        batch_size=10,
+        batch_size=50,
         num_epochs=None,
         shuffle=True)
     classifier.train(
