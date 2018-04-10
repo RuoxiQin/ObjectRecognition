@@ -10,6 +10,7 @@ import tensorflow as tf
 import os
 from caffe_classes import class_names
 from gen_train import input_func
+from gen_test import input_func_test
 import timeit
 import sys
 
@@ -284,8 +285,7 @@ def main(status, features=None):
                 num_epochs=1,
                 shuffle=False)
             predict_results = classifier.predict(\
-                input_fn=predict_input_fn,
-                yield_single_examples=True)
+                input_fn=predict_input_fn)
             for i in range(10):
                 print(next(predict_results))
 
