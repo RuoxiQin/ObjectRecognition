@@ -289,7 +289,7 @@ def main():
             x=features,
             y=labels,
             num_epochs=1,
-            shuffle=True)
+            shuffle=False)
         eval_results = classifier.evaluate(input_fn=eval_input_fn)
         print(eval_results)
 
