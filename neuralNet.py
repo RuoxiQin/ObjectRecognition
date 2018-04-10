@@ -242,7 +242,7 @@ def main():
     features, labels = input_func()
     features["objects"] = np.array(features["objects"]).astype(np.float32)
     features["scenes"] = np.array(features["scenes"]).astype(np.float32)
-    train_labels = np.array(labels).astype(np.int32)
+    labels = np.array(labels).astype(np.int32)
     def dummy_input_func():
         # Shuffle the data
         index = np.arange(train_labels.shape[0])
@@ -263,35 +263,21 @@ def main():
         tensors=tensors_to_log, every_n_iter=50)
 
     # Train the model
-    '''
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x={"objects": train_data1, "scenes": train_data2},
-        y=train_labels,
+        x=features,
+        y=labels,
         batch_size=10,
         num_epochs=None,
         shuffle=True)
-    '''
-    '''
     classifier.train(
         input_fn=dummy_input_func,
         steps=TRAIN_STEPS,
         hooks=[logging_hook])
-    '''
 
     # Evaluate the model and print results
-    eval_features, eval_labels = features, labels
-    eval_features["objects"] = \
-        np.array(eval_features["objects"]).astype(np.float32)
-    eval_features["scenes"] = \
-        np.array(eval_features["scenes"]).astype(np.float32)
-    eval_labels = np.array(eval_labels).astype(np.int32)
-    print("The shape of evaluation data is:")
-    print(eval_features["objects"].shape)
-    print(eval_features["scenes"].shape)
-    print(eval_labels.shape)
     eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x=eval_features,
-        y=eval_labels,
+        x=features,
+        y=labels,
         num_epochs=1,
         shuffle=True)
     eval_results = classifier.evaluate(input_fn=eval_input_fn)
