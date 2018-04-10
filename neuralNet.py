@@ -151,7 +151,7 @@ def model_fn(features, labels, mode):
     # Concatenate layer
     concat_layer = tf.concat([last_cnn_object, last_cnn_scene], axis=1)
     # Dense layer
-    dense1 = tf.layers.dense(inputs=concat_layer, units=50, \
+    dense1 = tf.layers.dense(inputs=concat_layer, units=4096, \
         activation=tf.nn.relu)
     # Dropout layer
     dropout1 = tf.layers.dropout(inputs=dense1, rate=0.4, \
@@ -222,7 +222,7 @@ def main():
     tf.logging.set_verbosity(tf.logging.INFO)
     tensors_to_log = {"probabilities": "softmax_tensor"}
     logging_hook = tf.train.LoggingTensorHook(
-        tensors=tensors_to_log, every_n_iter=4096)
+        tensors=tensors_to_log, every_n_iter=20)
 
     # Train the model
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
