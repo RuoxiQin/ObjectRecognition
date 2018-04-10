@@ -26,7 +26,13 @@ def train_input_fn():
     features["objects"] = np.array(features["objects"]).astype(np.float32)
     features["scenes"] = np.array(features["scenes"]).astype(np.float32)
     labels = np.array(labels).astype(np.int32)
-    return features, labels
+    input_f = tf.estimator.inputs.numpy_input_fn(
+        x=features,
+        y=labels,
+        batch_size=50,
+        num_epochs=None,
+        shuffle=True)
+    return input_f()
 
 
 def conv(input, kernel, biases, k_h, k_w, c_o, s_h, s_w, padding="VALID", 
@@ -267,6 +273,7 @@ def main():
         hooks=[logging_hook])
 
     # Evaluate the model and print results
+    '''
     eval_features, eval_labels = input_func()
     eval_features["objects"] = \
         np.array(eval_features["objects"]).astype(np.float32)
@@ -282,7 +289,8 @@ def main():
         y=eval_labels,
         num_epochs=1,
         shuffle=False)
-    eval_results = classifier.evaluate(input_fn=eval_input_fn)
+    '''
+    eval_results = classifier.evaluate(input_fn=train_input_fn)
     print(eval_results)
 
 
