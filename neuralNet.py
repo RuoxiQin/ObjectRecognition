@@ -328,9 +328,10 @@ class Detector:
             x=features,
             num_epochs=1,
             shuffle=False)
-        predict_results = self.classifier.predict(\
+        predict_iterator = self.classifier.predict(\
             input_fn=predict_input_fn)
-        return predict_results
+        prediction = [pre for pre in predict_iterator]
+        return prediction
 
 
 if __name__ == "__main__":
