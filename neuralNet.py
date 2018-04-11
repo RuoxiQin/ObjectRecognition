@@ -322,6 +322,8 @@ class Detector:
         """
         Classify whether the object exists in the scene
         """
+        features["objects"] = np.array(features["objects"]).astype(np.float32)
+        features["scenes"] = np.array(features["scenes"]).astype(np.float32)
         predict_input_fn = tf.estimator.inputs.numpy_input_fn(
             x=features,
             num_epochs=1,
@@ -351,6 +353,7 @@ if __name__ == "__main__":
     # Start training
     record_file_path = "./tmp/original/accuracy_record.txt"
     detector = Detector("./tmp/original")
+    '''
     f = open(record_file_path, "a+")
     f.write("Start a new training...\n")
     f.close()
@@ -365,3 +368,6 @@ if __name__ == "__main__":
         f.write("\n")
         f.close()
     print("Done!")
+    '''
+    result = detector.predict(test_features)
+    print(result)
