@@ -330,7 +330,7 @@ class Detector:
             shuffle=False)
         predict_iterator = self.classifier.predict(\
             input_fn=predict_input_fn)
-        prediction = [pre for pre in predict_iterator]
+        prediction = [pre["classes"] for pre in predict_iterator]
         return prediction
 
 
