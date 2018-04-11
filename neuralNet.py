@@ -351,7 +351,10 @@ if __name__ == "__main__":
     # Start training
     record_file_path = "./tmp/original/accuracy_record.txt"
     detector = Detector("./tmp/original")
-    for i in range(3):
+    f = open(record_file_path, "a+")
+    f.write("Start a new training...\n")
+    f.close()
+    for i in range(100):
         detector.train()
         print("Training step %d:" % i)
         evaluation_result = detector.evaluate(test_features, test_labels)
