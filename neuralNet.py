@@ -17,7 +17,7 @@ import pickle
 
 PICTURE_SIZE = 227
 LEARN_RATE = 0.0001
-TRAIN_STEPS = 100
+TRAIN_STEPS = 50
 CLASS_NUM = 2
 TRAIN = 0
 EVAL = 1
@@ -349,9 +349,16 @@ if __name__ == "__main__":
         test_features = test_data["features"]
         test_labels = test_data["labels"]
     # Start training
-    detector = Detector("./tmp")
+    record_file_path = "./tmp/original/accuracy_record.txt"
+    detector = Detector("./tmp/original")
     for i in range(3):
         detector.train()
         print("Training step %d:" % i)
-        print(detector.evaluate(test_features, test_labels))
+        evaluation_result = detector.evaluate(test_features, test_labels)
+        print(evaluation_result)
+        f = open(record_file_path, "a+")
+        f.write("Training step %d:\n" % i)
+        f.write(str(evaluation_result))
+        f.write("\n")
+        f.close()
     print("Done!")
