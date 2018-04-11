@@ -291,20 +291,20 @@ class Detector:
         # Create the Estimator
         self.classifier = tf.estimator.Estimator(\
             model_fn=model_fn, model_dir=model_dir)
-        # Setup logging hook for prediction
-        tf.logging.set_verbosity(tf.logging.INFO)
-        tensors_to_log = {"probabilities": "softmax_tensor"}
-        logging_hook = tf.train.LoggingTensorHook(
-            tensors=tensors_to_log, every_n_iter=50)
 
     def train(self):
         """
         Train the model
         """
+        # Setup logging hook for prediction
+        tf.logging.set_verbosity(tf.logging.INFO)
+        tensors_to_log = {"probabilities": "softmax_tensor"}
+        logging_hook = tf.train.LoggingTensorHook(
+            tensors=tensors_to_log, every_n_iter=50)
         self.classifier.train(
             input_fn=train_input_fn,
             steps=TRAIN_STEPS,
-            hooks=[logging_hook])
+            hooks=[])
 
     def evaluate(self, features, labels):
         """
@@ -315,7 +315,7 @@ class Detector:
             y=labels,
             num_epochs=1,
             shuffle=False)
-        eval_results = classifier.evaluate(input_fn=eval_input_fn)
+        eval_results = self.classifier.evaluate(input_fn=eval_input_fn)
         return eval_results
 
     def predict(self, features):
@@ -326,7 +326,7 @@ class Detector:
             x=features,
             num_epochs=1,
             shuffle=False)
-        predict_results = classifier.predict(\
+        predict_results = self.classifier.predict(\
             input_fn=predict_input_fn)
         return predict_results
 
@@ -353,5 +353,5 @@ if __name__ == "__main__":
     for i in range(3):
         detector.train()
         print("Training step %d:" % i)
-        print(detector.predict(test_features, test_labels))
+        print(detector.evaluate(test_features, test_labels))
     print("Done!")
