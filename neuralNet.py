@@ -16,7 +16,7 @@ import sys
 import pickle
 
 PICTURE_SIZE = 227
-LEARN_RATE = 0.0001
+LEARN_RATE = 0.00001
 TRAIN_STEPS = 50
 CLASS_NUM = 2
 TRAIN = 0
@@ -354,7 +354,6 @@ if __name__ == "__main__":
     # Start training
     record_file_path = "./tmp/original/accuracy_record.txt"
     detector = Detector("./tmp/original")
-    '''
     f = open(record_file_path, "a+")
     f.write("Start a new training...\n")
     f.close()
@@ -369,6 +368,3 @@ if __name__ == "__main__":
         f.write("\n")
         f.close()
     print("Done!")
-    '''
-    result = detector.predict(test_features)
-    print(result)
