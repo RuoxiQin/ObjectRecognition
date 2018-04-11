@@ -11,7 +11,7 @@ from neuralNet import Detector
 
 # parameters 
 path_to_model = "./tmp/original"
-path_scan_prefix = "./scan_images/set-3/"
+path_scan_prefix = "./scan_images/set-2/"
 num_iter = 10
 
 
