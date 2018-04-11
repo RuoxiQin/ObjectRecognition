@@ -1,0 +1,254 @@
+Start a new training...
+Training step 0:
+{'accuracy': 0.532, 'loss': 1.9199421, 'global_step': 50}
+Training step 1:
+{'accuracy': 0.521, 'loss': 2.0182297, 'global_step': 100}
+Start a new training...
+Training step 0:
+{'accuracy': 0.542, 'loss': 1.8763707, 'global_step': 301}
+Training step 1:
+{'accuracy': 0.518, 'loss': 2.9487612, 'global_step': 501}
+Training step 2:
+{'accuracy': 0.541, 'loss': 2.6480494, 'global_step': 701}
+Training step 3:
+{'accuracy': 0.562, 'loss': 2.1708567, 'global_step': 901}
+Training step 4:
+{'accuracy': 0.566, 'loss': 2.5392952, 'global_step': 1101}
+Training step 5:
+{'accuracy': 0.592, 'loss': 2.3449912, 'global_step': 1301}
+Training step 6:
+{'accuracy': 0.591, 'loss': 2.4976213, 'global_step': 1501}
+Training step 7:
+{'accuracy': 0.669, 'loss': 1.8895668, 'global_step': 1701}
+Training step 8:
+{'accuracy': 0.661, 'loss': 2.1733944, 'global_step': 1901}
+Training step 9:
+{'accuracy': 0.672, 'loss': 1.6956165, 'global_step': 2101}
+Training step 10:
+{'accuracy': 0.642, 'loss': 2.2604823, 'global_step': 2301}
+Training step 11:
+{'accuracy': 0.625, 'loss': 2.726641, 'global_step': 2501}
+Training step 12:
+{'accuracy': 0.618, 'loss': 3.0628488, 'global_step': 2701}
+Training step 13:
+{'accuracy': 0.626, 'loss': 2.5179143, 'global_step': 2901}
+Training step 14:
+{'accuracy': 0.616, 'loss': 2.8327863, 'global_step': 3101}
+Training step 15:
+{'accuracy': 0.619, 'loss': 3.112574, 'global_step': 3301}
+Training step 16:
+{'accuracy': 0.62, 'loss': 3.111237, 'global_step': 3501}
+Training step 17:
+{'accuracy': 0.636, 'loss': 2.4209363, 'global_step': 3701}
+Training step 18:
+{'accuracy': 0.638, 'loss': 2.131249, 'global_step': 3901}
+Training step 19:
+{'accuracy': 0.635, 'loss': 2.3131874, 'global_step': 4101}
+Training step 20:
+{'accuracy': 0.623, 'loss': 2.979046, 'global_step': 4301}
+Training step 21:
+{'accuracy': 0.649, 'loss': 1.2941947, 'global_step': 4501}
+Training step 22:
+{'accuracy': 0.696, 'loss': 0.9939489, 'global_step': 4701}
+Training step 23:
+{'accuracy': 0.675, 'loss': 1.2419773, 'global_step': 4901}
+Training step 24:
+{'accuracy': 0.792, 'loss': 0.82839924, 'global_step': 5101}
+Training step 25:
+{'accuracy': 0.744, 'loss': 0.97934055, 'global_step': 5301}
+Training step 26:
+{'accuracy': 0.686, 'loss': 1.2716206, 'global_step': 5501}
+Training step 27:
+{'accuracy': 0.647, 'loss': 1.2616584, 'global_step': 5701}
+Training step 28:
+{'accuracy': 0.639, 'loss': 1.3621876, 'global_step': 5901}
+Training step 29:
+{'accuracy': 0.651, 'loss': 1.6105896, 'global_step': 6101}
+Training step 30:
+{'accuracy': 0.645, 'loss': 1.9887637, 'global_step': 6301}
+Training step 31:
+{'accuracy': 0.667, 'loss': 1.2258689, 'global_step': 6501}
+Training step 32:
+{'accuracy': 0.739, 'loss': 0.95009595, 'global_step': 6701}
+Training step 33:
+{'accuracy': 0.764, 'loss': 0.9179382, 'global_step': 6901}
+Training step 34:
+{'accuracy': 0.767, 'loss': 1.1977243, 'global_step': 7101}
+Training step 35:
+{'accuracy': 0.764, 'loss': 1.4123878, 'global_step': 7301}
+Training step 36:
+{'accuracy': 0.77, 'loss': 1.2460355, 'global_step': 7501}
+Training step 37:
+{'accuracy': 0.771, 'loss': 1.2999861, 'global_step': 7701}
+Training step 38:
+{'accuracy': 0.765, 'loss': 1.2273847, 'global_step': 7901}
+Training step 39:
+{'accuracy': 0.762, 'loss': 1.0413762, 'global_step': 8101}
+Training step 40:
+{'accuracy': 0.767, 'loss': 1.2527951, 'global_step': 8301}
+Training step 41:
+{'accuracy': 0.763, 'loss': 1.1701328, 'global_step': 8501}
+Training step 42:
+{'accuracy': 0.769, 'loss': 1.3097624, 'global_step': 8701}
+Training step 43:
+{'accuracy': 0.77, 'loss': 1.2891845, 'global_step': 8901}
+Training step 44:
+{'accuracy': 0.775, 'loss': 0.78573483, 'global_step': 9101}
+Training step 45:
+{'accuracy': 0.796, 'loss': 0.7412854, 'global_step': 9301}
+Training step 46:
+{'accuracy': 0.861, 'loss': 0.6146177, 'global_step': 9501}
+Training step 47:
+{'accuracy': 0.876, 'loss': 0.67572176, 'global_step': 9701}
+Training step 48:
+{'accuracy': 0.872, 'loss': 0.8194312, 'global_step': 9901}
+Training step 49:
+{'accuracy': 0.876, 'loss': 0.77144426, 'global_step': 10101}
+Training step 50:
+{'accuracy': 0.876, 'loss': 0.8141403, 'global_step': 10301}
+Training step 51:
+{'accuracy': 0.872, 'loss': 0.75039625, 'global_step': 10501}
+Training step 52:
+{'accuracy': 0.868, 'loss': 0.7329953, 'global_step': 10701}
+Training step 53:
+{'accuracy': 0.848, 'loss': 0.8238656, 'global_step': 10901}
+Training step 54:
+{'accuracy': 0.864, 'loss': 0.74955916, 'global_step': 11101}
+Training step 55:
+{'accuracy': 0.837, 'loss': 0.78133225, 'global_step': 11301}
+Training step 56:
+{'accuracy': 0.861, 'loss': 0.38843545, 'global_step': 11501}
+Training step 57:
+{'accuracy': 0.846, 'loss': 0.47525835, 'global_step': 11701}
+Training step 58:
+{'accuracy': 0.821, 'loss': 0.7020559, 'global_step': 11901}
+Training step 59:
+{'accuracy': 0.835, 'loss': 0.54057026, 'global_step': 12101}
+Training step 60:
+{'accuracy': 0.836, 'loss': 0.6817899, 'global_step': 12301}
+Training step 61:
+{'accuracy': 0.837, 'loss': 0.73137957, 'global_step': 12501}
+Training step 62:
+{'accuracy': 0.867, 'loss': 0.39778474, 'global_step': 12701}
+Training step 63:
+{'accuracy': 0.87, 'loss': 0.5273023, 'global_step': 12901}
+Training step 64:
+{'accuracy': 0.836, 'loss': 0.7094908, 'global_step': 13101}
+Training step 65:
+{'accuracy': 0.893, 'loss': 0.57418066, 'global_step': 13301}
+Training step 66:
+{'accuracy': 0.89, 'loss': 0.5125938, 'global_step': 13501}
+Training step 67:
+{'accuracy': 0.89, 'loss': 0.5177858, 'global_step': 13701}
+Training step 68:
+{'accuracy': 0.884, 'loss': 0.42161742, 'global_step': 13901}
+Training step 69:
+{'accuracy': 0.889, 'loss': 0.4684036, 'global_step': 14101}
+Training step 70:
+{'accuracy': 0.889, 'loss': 0.45229432, 'global_step': 14301}
+Training step 71:
+{'accuracy': 0.889, 'loss': 0.4775485, 'global_step': 14501}
+Training step 72:
+{'accuracy': 0.869, 'loss': 0.37712422, 'global_step': 14701}
+Training step 73:
+{'accuracy': 0.878, 'loss': 0.42785364, 'global_step': 14901}
+Training step 74:
+{'accuracy': 0.87, 'loss': 0.38884392, 'global_step': 15101}
+Training step 75:
+{'accuracy': 0.877, 'loss': 0.42150933, 'global_step': 15301}
+Training step 76:
+{'accuracy': 0.892, 'loss': 0.5709542, 'global_step': 15501}
+Training step 77:
+{'accuracy': 0.897, 'loss': 0.80006224, 'global_step': 15701}
+Training step 78:
+{'accuracy': 0.897, 'loss': 0.8054127, 'global_step': 15901}
+Training step 79:
+{'accuracy': 0.892, 'loss': 0.9168614, 'global_step': 16101}
+Training step 80:
+{'accuracy': 0.896, 'loss': 0.7655503, 'global_step': 16301}
+Training step 81:
+{'accuracy': 0.892, 'loss': 0.8142847, 'global_step': 16501}
+Training step 82:
+{'accuracy': 0.89, 'loss': 0.8354322, 'global_step': 16701}
+Training step 83:
+{'accuracy': 0.894, 'loss': 0.7581565, 'global_step': 16901}
+Training step 84:
+{'accuracy': 0.893, 'loss': 0.71585417, 'global_step': 17101}
+Training step 85:
+{'accuracy': 0.898, 'loss': 0.7420094, 'global_step': 17301}
+Training step 86:
+{'accuracy': 0.889, 'loss': 0.8631143, 'global_step': 17501}
+Training step 87:
+{'accuracy': 0.898, 'loss': 0.7304179, 'global_step': 17701}
+Training step 88:
+{'accuracy': 0.896, 'loss': 0.61633193, 'global_step': 17901}
+Training step 89:
+{'accuracy': 0.898, 'loss': 0.6521171, 'global_step': 18101}
+Training step 90:
+{'accuracy': 0.896, 'loss': 0.53153646, 'global_step': 18301}
+Training step 91:
+{'accuracy': 0.894, 'loss': 0.4730668, 'global_step': 18501}
+Training step 92:
+{'accuracy': 0.893, 'loss': 0.44763368, 'global_step': 18701}
+Training step 93:
+{'accuracy': 0.893, 'loss': 0.47907808, 'global_step': 18901}
+Training step 94:
+{'accuracy': 0.893, 'loss': 0.45432898, 'global_step': 19101}
+Training step 95:
+{'accuracy': 0.892, 'loss': 0.45358253, 'global_step': 19301}
+Training step 96:
+{'accuracy': 0.887, 'loss': 0.385578, 'global_step': 19501}
+Training step 97:
+{'accuracy': 0.891, 'loss': 0.4525844, 'global_step': 19701}
+Training step 98:
+{'accuracy': 0.889, 'loss': 0.41807607, 'global_step': 19901}
+Training step 99:
+{'accuracy': 0.897, 'loss': 0.52045006, 'global_step': 20101}
+Training step 100:
+{'accuracy': 0.896, 'loss': 0.50962716, 'global_step': 20301}
+Training step 101:
+{'accuracy': 0.897, 'loss': 0.52737606, 'global_step': 20501}
+Training step 102:
+{'accuracy': 0.898, 'loss': 0.60138184, 'global_step': 20701}
+Training step 103:
+{'accuracy': 0.897, 'loss': 0.56221807, 'global_step': 20901}
+Training step 104:
+{'accuracy': 0.896, 'loss': 0.50320345, 'global_step': 21101}
+Training step 105:
+{'accuracy': 0.896, 'loss': 0.5041136, 'global_step': 21301}
+Training step 106:
+{'accuracy': 0.886, 'loss': 0.33461267, 'global_step': 21501}
+Training step 107:
+{'accuracy': 0.894, 'loss': 0.4613785, 'global_step': 21701}
+Training step 108:
+{'accuracy': 0.894, 'loss': 0.47053638, 'global_step': 21901}
+Training step 109:
+{'accuracy': 0.892, 'loss': 0.44260025, 'global_step': 22101}
+Training step 110:
+{'accuracy': 0.895, 'loss': 0.4537777, 'global_step': 22301}
+Training step 111:
+{'accuracy': 0.896, 'loss': 0.5875814, 'global_step': 22501}
+Training step 112:
+{'accuracy': 0.896, 'loss': 0.5880651, 'global_step': 22701}
+Training step 113:
+{'accuracy': 0.898, 'loss': 0.6825439, 'global_step': 22901}
+Training step 114:
+{'accuracy': 0.89, 'loss': 0.4583855, 'global_step': 23101}
+Training step 115:
+{'accuracy': 0.886, 'loss': 0.39497882, 'global_step': 23301}
+Training step 116:
+{'accuracy': 0.893, 'loss': 0.44831842, 'global_step': 23501}
+Training step 117:
+{'accuracy': 0.892, 'loss': 0.45759535, 'global_step': 23701}
+Training step 118:
+{'accuracy': 0.884, 'loss': 0.38452768, 'global_step': 23901}
+Training step 119:
+{'accuracy': 0.893, 'loss': 0.44382197, 'global_step': 24101}
+Training step 120:
+{'accuracy': 0.894, 'loss': 0.5969209, 'global_step': 24301}
+Training step 121:
+{'accuracy': 0.893, 'loss': 0.61286974, 'global_step': 24501}
+Training step 122:
+{'accuracy': 0.893, 'loss': 0.6380153, 'global_step': 24701}
+Training step 123:
+{'accuracy': 0.895, 'loss': 0.5244271, 'global_step': 24901}
