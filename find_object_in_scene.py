@@ -96,13 +96,7 @@ if __name__ == "__main__":
     
     
     # predicts 
-    feed_features["objects"] = \
-        np.array(feed_features["objects"]).astype(np.float32)
-    feed_features["scenes"] = \
-        np.array(feed_features["scenes"]).astype(np.float32)
-    feed_data = {"features": feed_features}
-    
-    predictions = detector.predict(feed_data)
+    predictions = detector.predict(feed_features)
     
     contours = []
     for seg in segments:
