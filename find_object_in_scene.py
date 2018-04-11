@@ -96,8 +96,6 @@ if __name__ == "__main__":
     
     
     # predicts 
-    feed_features = \
-        [scene_dissect(), object_dissect()]
     feed_features["objects"] = \
         np.array(feed_features["objects"]).astype(np.float32)
     feed_features["scenes"] = \
