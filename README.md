@@ -11,7 +11,7 @@ The pictures of the IKEA products and the indoor scenes are collected from
 We build a detector which takes two images, the object and the scene,
 and spit out a number between 0 and 1, indicating whether the object
 exists in the scene.
-In our implementation, the output are 2 numbers summing up to be 1.
+In our implementation, the output are 2 numbers summing up to 1.
 So the first number can be interpreted as the probability of object in the 
 scene.
 
@@ -39,6 +39,9 @@ Each hidden layer contains 4096 units and they use ReLU as the activation
 function.
 The output layer contains 2 nodes, as described above, and use SoftMax as 
 activation function.
+
+The architecture of the detector is the following:
+![Detector Architecture](detectorArchitecture.jpeg)
 
 ## Implementation
 ### Requirements
@@ -89,7 +92,7 @@ a pre-trained AlexNet which can be download at [here](http://www.cs.toronto.edu/
 
 The ``scan_images/`` is the directory where you put the image 
  of the testing object and scene. 
-The countour-?.jpg is the HeatMap generated from the algorithm.
+The ``countour-?.jpg`` is the HeatMap generated from the algorithm.
 The HeatMap represent the probability matrix in a graphical way.
 The light spot in the HeatMap represents a high probability that
 the object locates at that position.
@@ -98,10 +101,11 @@ The ``bedroom/``, ``kitchen/``, and ``bathroom/``, etc. are the
 folders containing the training data. 
 ``?.JPG`` is the image of objects and ``scene_?.jpg`` is the scene
 which contains those objects.
-The ``scene.xml`` is file generated from ``LabelMe`` which records
+The ``scene.xml`` is the file generated from ``LabelMe`` which records
 the location of the objects.
 
-The ``dataset`` folder in our repository is only a demo.
+Notice that the ``dataset`` folder in our repository is 
+only a demo.
 The entire training data set is too large to be added into
 the repository.
 If you want the full training data set, please contact us.
@@ -118,7 +122,7 @@ To train the detector, run
 python3 neuralNet.py
 ```
 
-The trained record will be stored under the directory you specified
+The trained weight will be stored under the directory you specified
 (for example ``tmp/first``).
 Before training, a fixed 1000-data evaluation dataset 
 ``test_data.p`` is generated 
@@ -143,7 +147,8 @@ path_to_model = "./tmp/first"
 Then the HeatMap's will be generated under ``set-?/`` named as
 ``contour-?.jpg``.
 We use 4 different sizes of sliding windows so there will be 4
-HeatMap's with small index indicating small sliding window.
+HeatMap's with smaller index indicating smaller sliding 
+window.
 
 ## Performance
 ### Learning Rate
@@ -161,13 +166,14 @@ The HeatMap generated from our algorithm is
 
 Locate the object in the original scene:
 ![Overlapped](scan_images/set-4/result-4.jpeg)
-where the blue bounding boxes indicate correct location and red 
+where the blue bounding boxes indicate the correct 
+locations and the red 
 boxes are the false positive.
 
 ## Future Work
-Our detector is sensitive to the size of sliding window.
+Our detector is sensitive to the size of the sliding window.
 If the sliding window captures the object properly, then the 
-detector can usually it correctly. 
+detector can usually detect it correctly. 
 So we can use more sizes of sliding windows to make the segmented
 scene more accurate. 
 
