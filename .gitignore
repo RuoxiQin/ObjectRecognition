@@ -1,4 +1,6 @@
+dataset
 bvlc_alexnet.npy
+caffe_classes.py
 tmp
 __pycache__
 .vscode
@@ -6,3 +8,4 @@ __pycache__
 *.zip
 .DS_Store
 *.p
+*.pyc

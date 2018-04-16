@@ -20,7 +20,7 @@ import xml.etree.ElementTree as ET
 
 # Init parameters
 
-path_prefix = '../CS640_Project_dataset/'
+path_prefix = './dataset/'
 dir_prefix = 'scene_'
 obj_suffix = '.JPG'
 file_scene = 'scene.jpg'
