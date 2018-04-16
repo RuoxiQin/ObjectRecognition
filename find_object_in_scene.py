@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Test the algorithm with the given testing object and scene
+"""
+
 # imports
 
 import numpy as np
@@ -10,7 +17,11 @@ from neuralNet import Detector
 
 
 # parameters 
+# The path of the weight of the model. Should be same as the
+# path_to_model set in the neuralNet.py
 path_to_model = "./tmp/first"
+
+# The directory where the testing object and scene are stored.
 path_scan_prefix = "./scan_images/set-2/"
 num_iter = 10
 

@@ -3,6 +3,8 @@
 
 """
 The neural net classifier
+@Author: Ruoxi Qin
+@Email: qinruoxi@outlook.com
 """
 
 import numpy as np
@@ -14,14 +16,18 @@ from gen_test import input_func_test
 import sys
 import pickle
 
-PICTURE_SIZE = 227
+
+PICTURE_SIZE = 227      # The dimension of the pictures. Set by AlexNet
 LEARN_RATE = 0.00001
 TRAIN_STEPS = 200
 CLASS_NUM = 2
 TRAIN = 0
 EVAL = 1
 PREDICT = 2
+# The name of the evaluation data set
 test_file_name = "test_data.p"
+# The directory to store the weight of the trained model
+path_to_model = "./tmp/first"
 
 class inputs:
     features, labels = input_func()
@@ -351,8 +357,8 @@ if __name__ == "__main__":
         test_features = test_data["features"]
         test_labels = test_data["labels"]
     # Start training
-    record_file_path = "./tmp/first/accuracy_record.txt"
-    detector = Detector("./tmp/first")
+    record_file_path = path_to_model + "/accuracy_record.txt"
+    detector = Detector(path_to_model)
     f = open(record_file_path, "a+")
     f.write("Start a new training...\n")
     f.close()

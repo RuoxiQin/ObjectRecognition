@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-# coding: utf-8
-
-# In[4]:
-
+"""
+Generate a 1000-data evaluation data set
+Basically the same as the gen_train_2node.py
+"""
 
 # imports
 
@@ -13,10 +15,7 @@ import random
 import xml.etree.ElementTree as ET
 
 
-# # DATASET SORTINGS
-
-# In[5]:
-
+## DATASET SORTINGS
 
 # Init parameters
 
@@ -26,16 +25,18 @@ obj_suffix = '.JPG'
 file_scene = 'scene.jpg'
 file_xml = 'scene.xml'
 obj_dim = 500
+
+# Some objects are occluded in the scene. The label of those objects can be set 
+# as different number other than 0 or 1. Here we still set it as 1
 occ_para = 1.0
+
+# The batch size 
 epoch_size = 1000 # must be a multiple of 50
 
 ikea_scenes = [
     'bathroom', 'bedroom', 'childrenroom', 
     'hallway', 'homeoffice', 'kitchen', 
     'laundry', 'livingroom', 'outdoor']
-
-
-# In[25]:
 
 
 # compute the dataset_structure
@@ -73,9 +74,6 @@ def scan_all(path_to_data):
 dataset_structure = scan_all(path_prefix)
 
 
-# In[26]:
-
-
 # backtrack the path to the objects
 
 def backtrack_path(target_num, path_to_data):
@@ -97,9 +95,7 @@ def backtrack_path(target_num, path_to_data):
     return (scene_loc, scene_num + 1, target_num)
 
 
-# # GENERATE TRAINING PICS
-
-# In[151]:
+## GENERATE TRAINING PICS
 
 # get obj from xml 
 def bound_xml(tup, path):
