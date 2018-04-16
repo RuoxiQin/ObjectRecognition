@@ -101,6 +101,12 @@ which contains those objects.
 The ``scene.xml`` is file generated from ``LabelMe`` which records
 the location of the objects.
 
+The ``dataset`` folder in our repository is only a demo.
+The entire training data set is too large to be added into
+the repository.
+If you want the full training data set, please contact us.
+
+
 The trained weight is stored at ``tmp/``.
 You can train different neural network and store their weights in
 different directory such as ``tmp/first/`` or ``tmp/second/``.

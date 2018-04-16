@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 
 # Init parameters
 
+# The directory where the training data is stored
 path_prefix = './dataset/'
 dir_prefix = 'scene_'
 obj_suffix = '.JPG'
@@ -29,6 +30,7 @@ occ_para = 1.0
 # The batch size 
 epoch_size = 100 # must be a multiple of 50
 
+# The list of folders contained by the training directory
 ikea_scenes = [
     'bathroom', 'bedroom', 'childrenroom', 
     'hallway', 'homeoffice', 'kitchen', 
